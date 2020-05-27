@@ -1,4 +1,6 @@
 import Head from "next/head";
+import React from "react";
+import ClipboardJS from "clipboard";
 import { parse } from "markdown";
 
 export default function Home() {
@@ -7,6 +9,13 @@ export default function Home() {
   const _setMarkdownText = (e) => {
     setMarkdownText(e.target.value);
   };
+
+  const markToHtml = parse(markdownText);
+
+  React.useEffect(() => {
+    var clipboard = new ClipboardJS(".btn");
+    return clipboard.destroy;
+  }, []);
 
   return (
     <div className="container">
@@ -24,12 +33,16 @@ export default function Home() {
           <div className="box">
             <div
               className="preview"
-              dangerouslySetInnerHTML={{ __html: parse(markdownText) }}
+              dangerouslySetInnerHTML={{ __html: markToHtml }}
             ></div>
           </div>
         </div>
-
-        <button></button>
+        <a className="btn" data-clipboard-text={markToHtml} href="http://blog.naver.com/hangru1106?Redirect=Write" target="_blank">
+          네이버 블로그 열기
+        </a>
+        <button className="btn" data-clipboard-text={markToHtml}>
+          Copy to clipboard
+        </button>
       </main>
 
       <footer></footer>
@@ -37,7 +50,8 @@ export default function Home() {
       <style jsx>{`
         .preview {
           border: 1px solid black;
-          min-height:500px;
+          min-height: 500px;
+          height: 100%;
         }
         .wrap {
           display: flex;

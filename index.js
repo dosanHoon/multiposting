@@ -1,19 +1,17 @@
 const puppeteer = require("puppeteer");
 const auth = require("./auth.json");
 (async () => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
-  await page.goto("https://nid.naver.com/nidlogin.login");
+  await page.goto(
+    "https://nid.naver.com/nidlogin.login?svctype=262144&url=http://m.naver.com/aside/"
+  );
 
-  await page.evaluate(async (auth) => {
-    const id_input = document.getElementById("id");
-    const pw_input = document.getElementById("pw");
-
-    id_input.value = auth.id;
-    pw_input.value = auth.pw;
-    const btn_login = document.getElementById("log.login");
-    btn_login.click();
-  }, auth);
+  // 네이버 로그인
+  await page.type("#id", auth.id, { delay: 100 });
+  await page.type("#pw", auth.pw, { delay: 100 });
+  await page.click('[type="submit"]');
+  await page.waitForNavigation();
 
   await page.screenshot({ path: "naver.png" });
   browser.close();
