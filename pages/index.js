@@ -1,6 +1,13 @@
 import Head from "next/head";
+import { parse } from "markdown";
 
 export default function Home() {
+  const [markdownText, setMarkdownText] = React.useState("");
+
+  const _setMarkdownText = (e) => {
+    setMarkdownText(e.target.value);
+  };
+
   return (
     <div className="container">
       <Head>
@@ -9,20 +16,43 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-        
-        <iframe src="https://www.naver.com/" id="test"></iframe>
+        <h1 className="title">한번에 포스팅</h1>
+        <div className="wrap">
+          <div className="box">
+            <textarea value={markdownText} onChange={_setMarkdownText} />
+          </div>
+          <div className="box">
+            <div
+              className="preview"
+              dangerouslySetInnerHTML={{ __html: parse(markdownText) }}
+            ></div>
+          </div>
+        </div>
+
+        <button></button>
       </main>
 
-      <footer>
-        <a>
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
+      <footer></footer>
 
       <style jsx>{`
+        .preview {
+          border: 1px solid black;
+          min-height:500px;
+        }
+        .wrap {
+          display: flex;
+          width: 100%;
+        }
+        .box {
+          flex: 1;
+          padding: 10px;
+        }
+        .box textarea {
+          width: 100%;
+          height: 100%;
+          min-height: 500px;
+        }
+
         .container {
           min-height: 100vh;
           padding: 0 0.5rem;
@@ -30,9 +60,11 @@ export default function Home() {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          width: 100%;
         }
 
         main {
+          width: 100%;
           padding: 5rem 0;
           flex: 1;
           display: flex;
