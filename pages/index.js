@@ -1,65 +1,72 @@
-import Head from 'next/head'
+import Head from "next/head";
+import React from "react";
+import ClipboardJS from "clipboard";
+import { parse } from "markdown";
 
 export default function Home() {
+  const [markdownText, setMarkdownText] = React.useState("");
+
+  const _setMarkdownText = (e) => {
+    setMarkdownText(e.target.value);
+  };
+
+  const markToHtml = parse(markdownText);
+
+  React.useEffect(() => {
+    var clipboard = new ClipboardJS(".btn");
+    return clipboard.destroy;
+  }, []);
+
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>MultiPosting</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/zeit/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        <h1 className="title">한번에 포스팅</h1>
+        <div className="wrap">
+          <div className="box">
+            <textarea value={markdownText} onChange={_setMarkdownText} />
+          </div>
+          <div className="box">
+            <div
+              className="preview"
+              dangerouslySetInnerHTML={{ __html: markToHtml }}
+            ></div>
+          </div>
         </div>
+        <a className="btn" data-clipboard-text={markToHtml} href="http://blog.naver.com/hangru1106?Redirect=Write" target="_blank">
+          네이버 블로그 열기
+        </a>
+        <button className="btn" data-clipboard-text={markToHtml}>
+          Copy to clipboard
+        </button>
       </main>
 
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
+      <footer></footer>
 
       <style jsx>{`
+        .preview {
+          border: 1px solid black;
+          min-height: 500px;
+          height: 100%;
+        }
+        .wrap {
+          display: flex;
+          width: 100%;
+        }
+        .box {
+          flex: 1;
+          padding: 10px;
+        }
+        .box textarea {
+          width: 100%;
+          height: 100%;
+          min-height: 500px;
+        }
+
         .container {
           min-height: 100vh;
           padding: 0 0.5rem;
@@ -70,6 +77,7 @@ export default function Home() {
         }
 
         main {
+          width: 100%;
           padding: 5rem 0;
           flex: 1;
           display: flex;
@@ -205,5 +213,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }
