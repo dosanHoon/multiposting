@@ -2,6 +2,7 @@ import Head from "next/head";
 import React from "react";
 import ClipboardJS from "clipboard";
 import { parse } from "markdown";
+import axios from "axios";
 
 export default function Home() {
   const [markdownText, setMarkdownText] = React.useState("");
@@ -11,6 +12,19 @@ export default function Home() {
   };
 
   const markToHtml = parse(markdownText);
+
+  const uploadPosting = () => {
+    axios
+      .post("http://localhost:3000/api/makepost", {
+        postdata: markToHtml,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   React.useEffect(() => {
     var clipboard = new ClipboardJS(".btn");
@@ -37,7 +51,11 @@ export default function Home() {
             ></div>
           </div>
         </div>
-        <a className="btn" data-clipboard-text={markToHtml} href="http://blog.naver.com/hangru1106?Redirect=Write" target="_blank">
+        <a
+          className="btn"
+          data-clipboard-text={markToHtml}
+          onClick={uploadPosting}
+        >
           네이버 블로그 열기
         </a>
         <button className="btn" data-clipboard-text={markToHtml}>

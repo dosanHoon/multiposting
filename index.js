@@ -4,7 +4,7 @@ const auth = require("./auth.json");
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto(
-    "https://nid.naver.com/nidlogin.login?svctype=262144&url=http://m.naver.com/aside/"
+    `http://blog.naver.com/${auth.id}?Redirect=Write`
   );
 
   // 네이버 로그인
@@ -12,7 +12,15 @@ const auth = require("./auth.json");
   await page.type("#pw", auth.pw, { delay: 100 });
   await page.click('[type="submit"]');
   await page.waitForNavigation();
+  
+  await page.evaluate(`
+  document.querySelector("#mainFrame").contentDocument.querySelector("#se2_iframe").contentDocument.querySelector(".se2_inputarea").innerHTML = "${postdata}"
 
+
+  document.querySelector("#mainFrame").contentDocument.querySelector("#btn_submit").click()
+  `);
+    
+  await page.waitForNavigation();
   await page.screenshot({ path: "naver.png" });
-  browser.close();
+  await browser.close()
 })();

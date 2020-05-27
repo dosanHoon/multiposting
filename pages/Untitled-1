@@ -8,3 +8,6 @@ inputt.innerHTML="<p>된다</p>"
 
 
 t.contentDocument.getElementById("btn_submit").click()
+
+
+document.querySelector("#mainFrame").contentDocument.querySelector("#btn_submit").click()
