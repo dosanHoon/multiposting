@@ -3,9 +3,11 @@ import React from "react";
 import ClipboardJS from "clipboard";
 import { parse } from "markdown";
 import axios from "axios";
+import Input from "../components/Input";
 
 export default function Home() {
   const [markdownText, setMarkdownText] = React.useState("");
+  const [title, setTitle] = React.useState("");
 
   const _setMarkdownText = (e) => {
     setMarkdownText(e.target.value);
@@ -16,6 +18,7 @@ export default function Home() {
   const uploadPosting = () => {
     axios
       .post("http://localhost:3000/api/makepost", {
+        title,
         postdata: markToHtml,
       })
       .then(function (response) {
@@ -39,35 +42,45 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className="title">한번에 포스팅</h1>
+        <h1 className="title neumo">한번에 포스팅</h1>
+        <Input value={title} onChange={setTitle} className="neumo" />
         <div className="wrap">
           <div className="box">
-            <textarea value={markdownText} onChange={_setMarkdownText} />
+            <textarea
+              value={markdownText}
+              onChange={_setMarkdownText}
+              className="neumo"
+            />
           </div>
           <div className="box">
             <div
-              className="preview"
+              className="preview neumo"
               dangerouslySetInnerHTML={{ __html: markToHtml }}
             ></div>
           </div>
         </div>
         <a
-          className="btn"
+          className="btn neumo"
           data-clipboard-text={markToHtml}
           onClick={uploadPosting}
         >
-          네이버 블로그 열기
+          포스팅 하기
         </a>
-        <button className="btn" data-clipboard-text={markToHtml}>
-          Copy to clipboard
-        </button>
       </main>
 
       <footer></footer>
 
       <style jsx>{`
+        .neumo {
+          border-radius: 30px;
+          background: linear-gradient(225deg, #ffffff, #e6e6e6);
+          box-shadow: -21px 21px 42px #ededed, 21px -21px 42px #ffffff;
+        }
+        .btn {
+          padding: 10px 15px;
+          maring: 10px;
+        }
         .preview {
-          border: 1px solid black;
           min-height: 500px;
           height: 100%;
         }
@@ -107,7 +120,6 @@ export default function Home() {
         footer {
           width: 100%;
           height: 100px;
-          border-top: 1px solid #eaeaea;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -150,11 +162,6 @@ export default function Home() {
           text-align: center;
         }
 
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
         code {
           background: #fafafa;
           border-radius: 5px;
@@ -172,47 +179,6 @@ export default function Home() {
 
           max-width: 800px;
           margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
         }
       `}</style>
 
