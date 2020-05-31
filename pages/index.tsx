@@ -1,39 +1,9 @@
 import Head from "next/head";
 import React from "react";
-import ClipboardJS from "clipboard";
-import { parse } from "markdown";
-import axios from "axios";
-import Input from "../components/Input";
+import { Button } from "@material-ui/core";
+import Link from "next/link";
 
 export default function Home() {
-  const [markdownText, setMarkdownText] = React.useState("");
-  const [title, setTitle] = React.useState("");
-
-  const _setMarkdownText = (e) => {
-    setMarkdownText(e.target.value);
-  };
-
-  const markToHtml = parse(markdownText);
-
-  const uploadPosting = () => {
-    axios
-      .post("http://localhost:3000/api/makepost", {
-        title,
-        postdata: markToHtml,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  React.useEffect(() => {
-    var clipboard = new ClipboardJS(".btn");
-    return clipboard.destroy;
-  }, []);
-
   return (
     <div className="container">
       <Head>
@@ -43,29 +13,12 @@ export default function Home() {
 
       <main>
         <h1 className="title neumo">한번에 포스팅</h1>
-        <Input value={title} onChange={setTitle} className="neumo" />
-        <div className="wrap">
-          <div className="box">
-            <textarea
-              value={markdownText}
-              onChange={_setMarkdownText}
-              className="neumo"
-            />
-          </div>
-          <div className="box">
-            <div
-              className="preview neumo"
-              dangerouslySetInnerHTML={{ __html: markToHtml }}
-            ></div>
-          </div>
-        </div>
-        <a
-          className="btn neumo"
-          data-clipboard-text={markToHtml}
-          onClick={uploadPosting}
-        >
-          포스팅 하기
-        </a>
+        <Button variant="contained">
+          <Link href="./blogsmanagement">블로그 관리</Link>
+        </Button>
+        <Button variant="contained" color="primary">
+          <Link href="./multiposting">포스팅 하기</Link>
+        </Button>
       </main>
 
       <footer></footer>
