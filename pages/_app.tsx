@@ -1,5 +1,5 @@
 import React from "react";
-import App, { Container } from "next/app";
+import App from "next/app";
 import { Provider } from "mobx-react";
 
 import initializeStore from "../stores/stores";
@@ -29,9 +29,7 @@ class CustomApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <Provider {...this.mobxStore}>
-        <Container>
-          <Component {...pageProps} />
-        </Container>
+        <Component {...pageProps} />
       </Provider>
     );
   }
