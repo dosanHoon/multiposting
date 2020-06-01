@@ -12,10 +12,14 @@ export default function Home() {
       <main>
         <h1>한번에 포스팅</h1>
         <Button variant="contained">
-          <Link href="./blogsmanagement">블로그 관리</Link>
+          <Link href="./blogsmanagement">
+            <a>블로그 관리</a>
+          </Link>
         </Button>
         <Button variant="contained" color="primary">
-          <Link href="./multiposting">포스팅 하기</Link>
+          <Link href="./multiposting">
+            <a>포스팅 하기</a>
+          </Link>
         </Button>
       </main>
       <footer></footer>
