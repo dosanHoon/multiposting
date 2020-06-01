@@ -1,6 +1,5 @@
 import Head from "next/head";
 import React from "react";
-// import ClipboardJS from "clipboard";
 import { parse } from "markdown";
 import axios from "axios";
 import Input from "../components/Input";
@@ -29,11 +28,6 @@ export default function MultiPosting() {
       });
   };
 
-//   React.useEffect(() => {
-//     var clipboard = new ClipboardJS(".btn");
-//     return clipboard.destroy;
-//   }, []);
-
   return (
     <div className="container">
       <Head>
@@ -43,7 +37,7 @@ export default function MultiPosting() {
 
       <main>
         <h1 className="title neumo">한번에 포스팅</h1>
-        <Input value={title} onChange={setTitle} className="neumo" />
+        <Input value={title} onChange={setTitle} />
         <div className="wrap">
           <div className="box">
             <textarea
