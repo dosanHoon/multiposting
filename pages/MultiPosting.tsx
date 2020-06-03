@@ -1,14 +1,22 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import { Button } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  Container,
+  InputLabel,
+  FormControl,
+  OutlinedInput,
+} from "@material-ui/core";
 import React from "react";
 import { parse } from "markdown";
 import axios from "axios";
-import Input from "../components/Input";
+import Link from "next/link";
 
 const MdEditorWithNoSSR = dynamic(() => import("react-markdown-editor-lite"), {
   ssr: false,
 });
+
 export default function MultiPosting() {
   const [markdownText, setMarkdownText] = React.useState("");
   const [htmlText, setHtmlText] = React.useState("");
@@ -35,31 +43,51 @@ export default function MultiPosting() {
   };
 
   return (
-    <div className="container">
-      <Head>
-        <title>MultiPosting</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <h1 className="title neumo">한번에 포스팅</h1>
-        <Input value={title} onChange={setTitle} />
-        <div className="wrap">
-          <div className="box">
+    <Container>
+      <Grid container spacing={3}>
+        <Head>
+          <title>MultiPosting</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Grid item container xs={12} spacing={3}>
+          <Grid item xs={12}>
+            <h1>한번에 포스팅</h1>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl variant="outlined">
+              <InputLabel htmlFor="component-outlined">title</InputLabel>
+              <OutlinedInput
+                id="component-outlined"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                label="title"
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
             <MdEditorWithNoSSR
               value={markdownText}
               style={{ height: "500px" }}
               renderHTML={(text) => parse(text)}
               onChange={_setMarkdownText}
             />
-          </div>
-        </div>
-        <Button variant="contained" color="secondary">
-          <a onClick={uploadPosting}>포스팅 하기</a>
-        </Button>
-      </main>
-
-      <footer></footer>
-    </div>
+          </Grid>
+        </Grid>
+        <Grid item container spacing={3}>
+          <Grid item>
+            <Button variant="contained" color="secondary">
+              <a onClick={uploadPosting}>포스팅 하기</a>
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button variant="contained" color="default">
+              <Link href="/">
+                <a>목록으로</a>
+              </Link>
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }

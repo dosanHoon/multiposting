@@ -29,9 +29,31 @@ class CustomApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <Provider {...this.mobxStore}>
-        <Component {...pageProps} />
-      </Provider>
+      <React.Fragment>
+        <Provider {...this.mobxStore}>
+          <Component {...pageProps} />
+        </Provider>
+        <style jsx global>{`
+          html,
+          body {
+            padding: 0;
+            margin: 0;
+          }
+
+          * {
+            box-sizing: border-box;
+          }
+
+          a {
+            text-decoration: none !important;
+            color: white;
+          }
+          a:link {
+            color: white;
+            text-decoration: none !important;
+          }
+        `}</style>
+      </React.Fragment>
     );
   }
 }
