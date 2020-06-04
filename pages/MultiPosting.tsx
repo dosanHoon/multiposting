@@ -12,6 +12,7 @@ import React from "react";
 import { parse } from "markdown";
 import axios from "axios";
 import Link from "next/link";
+import SelectBlogModal from "../components/Blogs/SelectBlogModal";
 
 const MdEditorWithNoSSR = dynamic(() => import("react-markdown-editor-lite"), {
   ssr: false,
@@ -21,6 +22,11 @@ export default function MultiPosting() {
   const [markdownText, setMarkdownText] = React.useState("");
   const [htmlText, setHtmlText] = React.useState("");
   const [title, setTitle] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+
+  const handleClose = () => setOpen(false);
 
   function _setMarkdownText({ html, text }) {
     setMarkdownText(text);
@@ -75,10 +81,11 @@ export default function MultiPosting() {
         </Grid>
         <Grid item container spacing={3}>
           <Grid item>
-            <Button variant="contained" color="secondary">
-              <a onClick={uploadPosting}>포스팅 하기</a>
+            <Button variant="contained" color="secondary" onClick={handleOpen}>
+              <a>포스팅 하기</a>
             </Button>
           </Grid>
+          <SelectBlogModal handleClose={handleClose} open={open} uploadPosting={uploadPosting}/>
           <Grid item>
             <Button variant="contained" color="default">
               <Link href="/">
