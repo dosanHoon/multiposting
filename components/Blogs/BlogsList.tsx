@@ -2,7 +2,7 @@ import React from "react";
 import { MobXProviderContext } from "mobx-react";
 import { Grid, Button, Checkbox } from "@material-ui/core";
 
-const BlogsList = () => {
+const BlogsList: React.FC = () => {
   const { BlogStore } = React.useContext(MobXProviderContext);
 
   return (

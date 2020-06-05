@@ -18,8 +18,17 @@ const MdEditorWithNoSSR = dynamic(() => import("react-markdown-editor-lite"), {
   ssr: false,
 });
 
+function onImageUpload(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (data) => {
+      resolve(data.target.result);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 export default function MultiPosting() {
-  const [markdownText, setMarkdownText] = React.useState("");
   const [htmlText, setHtmlText] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -29,7 +38,6 @@ export default function MultiPosting() {
   const handleClose = () => setOpen(false);
 
   function _setMarkdownText({ html, text }) {
-    setMarkdownText(text);
     setHtmlText(html);
     console.log("handleEditorChange", html, text);
   }
@@ -72,7 +80,8 @@ export default function MultiPosting() {
           </Grid>
           <Grid item xs={12}>
             <MdEditorWithNoSSR
-              value={markdownText}
+              onImageUpload={onImageUpload}
+              value={""}
               style={{ height: "500px" }}
               renderHTML={(text) => parse(text)}
               onChange={_setMarkdownText}
@@ -85,7 +94,11 @@ export default function MultiPosting() {
               <a>포스팅 하기</a>
             </Button>
           </Grid>
-          <SelectBlogModal handleClose={handleClose} open={open} uploadPosting={uploadPosting}/>
+          <SelectBlogModal
+            handleClose={handleClose}
+            open={open}
+            uploadPosting={uploadPosting}
+          />
           <Grid item>
             <Button variant="contained" color="default">
               <Link href="/">
