@@ -1,7 +1,8 @@
 import React from "react";
-import { Modal, makeStyles, Button } from "@material-ui/core";
+import { Modal, makeStyles, Button, Grid } from "@material-ui/core";
 import BlogsList from "./BlogsList";
-
+import Alert from "@material-ui/lab/Alert";
+import { MobXProviderContext, observer } from "mobx-react";
 interface Props {
   handleClose: () => void;
   open: boolean;
@@ -37,6 +38,7 @@ const SelectBlogModal: React.FC<Props> = ({
 }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
+  const { BlogStore } = React.useContext(MobXProviderContext);
 
   return (
     <Modal
@@ -46,7 +48,13 @@ const SelectBlogModal: React.FC<Props> = ({
       aria-describedby="simple-modal-description"
     >
       <div style={modalStyle} className={classes.paper}>
-        <BlogsList />
+        <Grid>
+          <BlogsList />
+        </Grid>
+
+        {!BlogStore.selectedBlogList.length && (
+          <Alert severity="error">블로그를 선택해주세요.</Alert>
+        )}
         <Button variant="contained" color="secondary" onClick={uploadPosting}>
           <a>포스팅 하기</a>
         </Button>
@@ -55,4 +63,4 @@ const SelectBlogModal: React.FC<Props> = ({
   );
 };
 
-export default SelectBlogModal;
+export default observer(SelectBlogModal);

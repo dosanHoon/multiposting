@@ -13,6 +13,7 @@ import { parse } from "markdown";
 import axios from "axios";
 import Link from "next/link";
 import SelectBlogModal from "../components/Blogs/SelectBlogModal";
+import { MobXProviderContext } from "mobx-react";
 
 const MdEditorWithNoSSR = dynamic(() => import("react-markdown-editor-lite"), {
   ssr: false,
@@ -29,6 +30,8 @@ function onImageUpload(file) {
 }
 
 export default function MultiPosting() {
+  const { BlogStore } = React.useContext(MobXProviderContext);
+
   const [htmlText, setHtmlText] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -43,17 +46,20 @@ export default function MultiPosting() {
   }
 
   const uploadPosting = () => {
-    axios
-      .post("http://localhost:3000/api/makepost", {
-        title,
-        postdata: htmlText,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (BlogStore.selectedBlogList.length) {
+      axios
+        .post("http://localhost:3000/api/makepost", {
+          blogList: BlogStore.selectedBlogList,
+          title,
+          postdata: htmlText,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -83,7 +89,7 @@ export default function MultiPosting() {
               onImageUpload={onImageUpload}
               value={""}
               style={{ height: "500px" }}
-              renderHTML={(text) => parse(text)}
+              renderHTML={parse}
               onChange={_setMarkdownText}
             />
           </Grid>
