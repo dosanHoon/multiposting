@@ -28,7 +28,6 @@ const naverPost = async (postdata, title, id, pw) => {
     );
 
     await page.waitForNavigation();
-    await page.screenshot({ path: "naver.png" });
   } catch (e) {
     console.log("naverPost error=============", e);
   } finally {

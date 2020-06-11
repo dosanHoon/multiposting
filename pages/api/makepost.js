@@ -1,4 +1,5 @@
 import tistoryPost from "../../util/tistoryPost";
+import naverPost from "../../util/naverPost";
 
 export default async (req, res) => {
   const postdata = req.body.postdata;

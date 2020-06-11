@@ -24,7 +24,6 @@ const tistoryPost = async (postdata, title, id, pw) => {
     await page.waitFor("#open20");
     await page.click("#open20");
     await page.click('[type="submit"]');
-    await page.screenshot({ path: "tisrotk.png" });
   } catch (e) {
     console.log("tistroy error=============", e);
   } finally {
