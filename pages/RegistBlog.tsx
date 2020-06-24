@@ -5,6 +5,13 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import {
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Grid,
+  Button,
+} from "@material-ui/core";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -49,6 +56,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function RegistBlog() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [password, setPassword] = React.useState("");
+  const [title, setTitle] = React.useState("");
+  const [blogList, setBlogList] = React.useState([]);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -56,26 +66,69 @@ export default function RegistBlog() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="simple tabs example"
-        >
-          <Tab label="네이버" {...a11yProps(0)} />
-          <Tab label="티스토리" {...a11yProps(1)} />
-          <Tab label="velog" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        네이버
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        티스토리
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        velog
-      </TabPanel>
+      <Grid container spacing={3}>
+        <Grid md={6}>
+          <AppBar position="static">
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="simple tabs example"
+            >
+              <Tab label="네이버" {...a11yProps(0)} />
+              <Tab label="티스토리" {...a11yProps(1)} />
+              <Tab label="velog" {...a11yProps(2)} />
+            </Tabs>
+          </AppBar>
+          <TabPanel value={value} index={0}>
+            <h1>네이버</h1>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <h1>티스토리</h1>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <h1>velog</h1>
+          </TabPanel>
+          <div>
+            <FormControl variant="outlined">
+              <InputLabel htmlFor="id">id</InputLabel>
+              <OutlinedInput
+                id="blog_id"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                label="id"
+              />
+            </FormControl>
+          </div>
+          <div>
+            <FormControl>
+              <InputLabel htmlFor="blog_password">password</InputLabel>
+              <OutlinedInput
+                id="blog_password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                label="password"
+                type="password"
+              />
+            </FormControl>
+          </div>
+          <div>
+            <Button variant="contained">추가 하기</Button>
+          </div>
+        </Grid>
+        <Grid md={6}>
+          <h1>등록 대기 리스트</h1>
+          <div>
+            {blogList.map(({ blogType, blogId }) => (
+              <div>
+                {blogType}({blogId})
+              </div>
+            ))}
+          </div>
+          <div>
+            <Button variant="contained">저장 하기</Button>
+          </div>
+        </Grid>
+      </Grid>
     </div>
   );
 }

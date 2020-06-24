@@ -15,7 +15,7 @@ export default async (req, res) => {
           promiseList.push(tistoryPost(postdata, title, id, pw));
       }
     });
-    console.log("promiseList", promiseList);
+
     try {
       await Promise.all(promiseList);
       res
