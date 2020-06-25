@@ -1,8 +1,5 @@
 import React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import {
@@ -11,39 +8,13 @@ import {
   OutlinedInput,
   Grid,
   Button,
+  ButtonGroup,
 } from "@material-ui/core";
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: any;
   value: any;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index: any) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -53,48 +24,57 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const blogTypeList = [
+  { name: "네이버", type: "naver" },
+  { name: "티스토리", type: "tistory" },
+  { name: "velog", type: "velog" },
+];
+
 export default function RegistBlog() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
   const [password, setPassword] = React.useState("");
-  const [title, setTitle] = React.useState("");
+  const [blogId, setBlogId] = React.useState("");
   const [blogList, setBlogList] = React.useState([]);
+  const [blogType, setBlogType] = React.useState({ name: "", type: "" });
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
+  const addNewBlog = () => {
+    setBlogList((prev) => {
+      prev.push({ blog: blogType.type, id: blogId, pw: password });
+      return [...prev];
+    });
+  };
+
+  const selectBlogType = (blog) => () => {
+    setBlogType(blog);
   };
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid md={6}>
-          <AppBar position="static">
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="simple tabs example"
-            >
-              <Tab label="네이버" {...a11yProps(0)} />
-              <Tab label="티스토리" {...a11yProps(1)} />
-              <Tab label="velog" {...a11yProps(2)} />
-            </Tabs>
-          </AppBar>
-          <TabPanel value={value} index={0}>
-            <h1>네이버</h1>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <h1>티스토리</h1>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <h1>velog</h1>
-          </TabPanel>
+          <ButtonGroup
+            color="primary"
+            aria-label="contained primary button group"
+          >
+            {blogTypeList.map((blog) => (
+              <Button
+                variant={blogType.name === blog.name ? "contained" : "outlined"}
+                onClick={selectBlogType(blog)}
+              >
+                {blog.name}
+              </Button>
+            ))}
+          </ButtonGroup>
+          <div>
+            <h1>{blogType.name}</h1>
+          </div>
           <div>
             <FormControl variant="outlined">
-              <InputLabel htmlFor="id">id</InputLabel>
+              <InputLabel htmlFor="blog_id">id</InputLabel>
               <OutlinedInput
                 id="blog_id"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={blogId}
+                onChange={(e) => setBlogId(e.target.value)}
                 label="id"
               />
             </FormControl>
@@ -112,15 +92,17 @@ export default function RegistBlog() {
             </FormControl>
           </div>
           <div>
-            <Button variant="contained">추가 하기</Button>
+            <Button variant="contained" onClick={addNewBlog}>
+              추가 하기
+            </Button>
           </div>
         </Grid>
         <Grid md={6}>
           <h1>등록 대기 리스트</h1>
           <div>
-            {blogList.map(({ blogType, blogId }) => (
+            {blogList.map(({ blog, id }) => (
               <div>
-                {blogType}({blogId})
+                {blog}({id})
               </div>
             ))}
           </div>
