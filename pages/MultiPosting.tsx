@@ -45,7 +45,7 @@ export default function MultiPosting() {
     console.log("handleEditorChange", html, text);
   }
 
-  const uploadPosting = () => {
+  const uploadPosting = React.useCallback(() => {
     if (BlogStore.selectedBlogList.length) {
       axios
         .post("http://localhost:3000/api/makepost", {
@@ -60,7 +60,7 @@ export default function MultiPosting() {
           console.log(error);
         });
     }
-  };
+  }, [BlogStore.selectedBlogList, title, htmlText]);
 
   return (
     <Container>

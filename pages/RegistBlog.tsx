@@ -1,7 +1,5 @@
 import React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import {
   FormControl,
   InputLabel,
@@ -10,12 +8,6 @@ import {
   Button,
   ButtonGroup,
 } from "@material-ui/core";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: any;
-  value: any;
-}
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -37,15 +29,22 @@ export default function RegistBlog() {
   const [blogList, setBlogList] = React.useState([]);
   const [blogType, setBlogType] = React.useState({ name: "", type: "" });
 
-  const addNewBlog = () => {
+  const addNewBlog = React.useCallback(() => {
     setBlogList((prev) => {
       prev.push({ blog: blogType.type, id: blogId, pw: password });
       return [...prev];
     });
-  };
+  }, [blogType, blogId, password]);
 
-  const selectBlogType = (blog) => () => {
-    setBlogType(blog);
+  const selectBlogType = React.useCallback(
+    (blog) => () => {
+      setBlogType(blog);
+    },
+    []
+  );
+
+  const saveNewBlogList = () => {
+    // blogList
   };
 
   return (
@@ -107,7 +106,9 @@ export default function RegistBlog() {
             ))}
           </div>
           <div>
-            <Button variant="contained">저장 하기</Button>
+            <Button variant="contained" onClick={saveNewBlogList}>
+              저장 하기
+            </Button>
           </div>
         </Grid>
       </Grid>
