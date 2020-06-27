@@ -8,6 +8,7 @@ import {
   Button,
   ButtonGroup,
 } from "@material-ui/core";
+import Axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -44,7 +45,15 @@ export default function RegistBlog() {
   );
 
   const saveNewBlogList = () => {
-    // blogList
+    Axios.post("http://localhost:3000/api/addblog", {
+      blogdata: blogList,
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
