@@ -7,6 +7,7 @@ import {
   Grid,
   Button,
   ButtonGroup,
+  Container,
 } from "@material-ui/core";
 import Axios from "axios";
 
@@ -14,6 +15,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    padding: 24,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
   },
 }));
 
@@ -58,69 +65,74 @@ export default function RegistBlog() {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid md={6}>
-          <ButtonGroup
-            color="primary"
-            aria-label="contained primary button group"
-          >
-            {blogTypeList.map((blog) => (
-              <Button
-                variant={blogType.name === blog.name ? "contained" : "outlined"}
-                onClick={selectBlogType(blog)}
+      <Container maxWidth="sm">
+        <Grid container spacing={3}>
+          <Grid item md={6}>
+            <Grid item>
+              <ButtonGroup
+                color="primary"
+                aria-label="contained primary button group"
               >
-                {blog.name}
+                {blogTypeList.map((blog) => (
+                  <Button
+                    variant={
+                      blogType.name === blog.name ? "contained" : "outlined"
+                    }
+                    onClick={selectBlogType(blog)}
+                  >
+                    {blog.name}
+                  </Button>
+                ))}
+              </ButtonGroup>
+            </Grid>
+            <div>
+              <h1>{blogType.name}</h1>
+            </div>
+            <Grid item>
+              <FormControl variant="outlined">
+                <InputLabel htmlFor="blog_id">id</InputLabel>
+                <OutlinedInput
+                  id="blog_id"
+                  value={blogId}
+                  onChange={(e) => setBlogId(e.target.value)}
+                  label="id"
+                />
+              </FormControl>
+
+              <FormControl>
+                <InputLabel htmlFor="blog_password">password</InputLabel>
+                <OutlinedInput
+                  id="blog_password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  label="password"
+                  type="password"
+                />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" onClick={addNewBlog}>
+                추가 하기
               </Button>
-            ))}
-          </ButtonGroup>
-          <div>
-            <h1>{blogType.name}</h1>
-          </div>
-          <div>
-            <FormControl variant="outlined">
-              <InputLabel htmlFor="blog_id">id</InputLabel>
-              <OutlinedInput
-                id="blog_id"
-                value={blogId}
-                onChange={(e) => setBlogId(e.target.value)}
-                label="id"
-              />
-            </FormControl>
-          </div>
-          <div>
-            <FormControl>
-              <InputLabel htmlFor="blog_password">password</InputLabel>
-              <OutlinedInput
-                id="blog_password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                label="password"
-                type="password"
-              />
-            </FormControl>
-          </div>
-          <div>
-            <Button variant="contained" onClick={addNewBlog}>
-              추가 하기
-            </Button>
-          </div>
+            </Grid>
+          </Grid>
+          <Grid md={6} item>
+            <h1>등록 대기 리스트</h1>
+            <div>
+              {blogList.map(({ blog, id }) => (
+                <div>
+                  {blog}({id})
+                </div>
+              ))}
+            </div>
+            <div>
+              <Button variant="contained" onClick={saveNewBlogList}>
+                저장 하기
+              </Button>
+            </div>
+          </Grid>
         </Grid>
-        <Grid md={6}>
-          <h1>등록 대기 리스트</h1>
-          <div>
-            {blogList.map(({ blog, id }) => (
-              <div>
-                {blog}({id})
-              </div>
-            ))}
-          </div>
-          <div>
-            <Button variant="contained" onClick={saveNewBlogList}>
-              저장 하기
-            </Button>
-          </div>
-        </Grid>
-      </Grid>
+      </Container>
     </div>
   );
 }
