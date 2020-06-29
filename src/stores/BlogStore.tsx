@@ -1,5 +1,5 @@
 import React from "react";
-import { list } from "../auth.json";
+import { list } from "../../auth.json";
 import { useLocalStore } from "mobx-react";
 import { observable, set, action, computed } from "mobx";
 

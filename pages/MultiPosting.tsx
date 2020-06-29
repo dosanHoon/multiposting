@@ -12,7 +12,7 @@ import React from "react";
 import { parse } from "markdown";
 import axios from "axios";
 import Link from "next/link";
-import SelectBlogModal from "../components/Blogs/SelectBlogModal";
+import SelectBlogModal from "../src/components/Blogs/SelectBlogModal";
 import { MobXProviderContext } from "mobx-react";
 
 const MdEditorWithNoSSR = dynamic(() => import("react-markdown-editor-lite"), {

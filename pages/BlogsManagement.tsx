@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Grid, Theme, makeStyles, Container } from "@material-ui/core";
 import { MobXProviderContext } from "mobx-react";
 import Link from "next/link";
-import BlogListTable from "../components/Blogs/BlogListTable";
+import BlogListTable from "../src/components/Blogs/BlogListTable";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,

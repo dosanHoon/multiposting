@@ -2,7 +2,7 @@ import React from "react";
 import App from "next/app";
 import { Provider } from "mobx-react";
 
-import initializeStore from "../stores/stores";
+import initializeStore from "../src/stores/stores";
 import "react-markdown-editor-lite/lib/index.css";
 
 class CustomApp extends App {
