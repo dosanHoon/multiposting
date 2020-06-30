@@ -17,6 +17,7 @@ interface PropsTypes {
   blog: string;
   id: string;
   pw: string;
+  aliasName: string;
   isItemSelected: boolean;
   onClick: (event: React.MouseEvent<unknown>) => void;
 }
@@ -53,6 +54,7 @@ const BlogTableRow: React.FC<PropsTypes> = ({
   blog,
   id,
   pw,
+  aliasName,
   isItemSelected,
   onClick,
 }) => {
@@ -80,7 +82,26 @@ const BlogTableRow: React.FC<PropsTypes> = ({
       <TableCell component="th" scope="row" padding="none">
         {blog}
       </TableCell>
-      <TableCell align="right">{id}</TableCell>
+      <TableCell align="right">
+        <FormControl className={classes.textField}>
+          <InputLabel htmlFor="standard-aliasName">블로그 별칭</InputLabel>
+          <Input
+            id="standard-aliasName"
+            value={aliasName}
+            // onChange={handleChange("password")}
+          />
+        </FormControl>
+      </TableCell>
+      <TableCell align="right">
+        <FormControl className={classes.textField}>
+          <InputLabel htmlFor="standard-id">id</InputLabel>
+          <Input
+            id="standard-id"
+            value={id}
+            // onChange={handleChange("password")}
+          />
+        </FormControl>
+      </TableCell>
       <TableCell align="right">
         <FormControl className={classes.textField}>
           <InputLabel htmlFor="standard-adornment-password">
