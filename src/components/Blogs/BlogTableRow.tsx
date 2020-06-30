@@ -17,6 +17,8 @@ interface PropsTypes {
   blog: string;
   id: string;
   pw: string;
+  isItemSelected: boolean;
+  onClick: (event: React.MouseEvent<unknown>) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +49,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BlogTableRow: React.FC<PropsTypes> = ({ blog, id, pw }) => {
+const BlogTableRow: React.FC<PropsTypes> = ({
+  blog,
+  id,
+  pw,
+  isItemSelected,
+  onClick,
+}) => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -62,11 +70,11 @@ const BlogTableRow: React.FC<PropsTypes> = ({ blog, id, pw }) => {
   };
 
   return (
-    <TableRow hover role="checkbox" tabIndex={-1}>
+    <TableRow hover role="checkbox" tabIndex={-1} onClick={onClick}>
       <TableCell padding="checkbox">
         <Checkbox
-        // checked={isItemSelected}
-        // inputProps={{ "aria-labelledby": labelId }}
+          checked={isItemSelected}
+          // inputProps={{ "aria-labelledby": labelId }}
         />
       </TableCell>
       <TableCell component="th" scope="row" padding="none">

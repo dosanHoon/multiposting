@@ -14,6 +14,8 @@ export class BlogModel implements BlogType {
     set(this, param);
   }
   @observable
+  aliasName: string;
+  @observable
   blog: string;
   @observable
   id: string;

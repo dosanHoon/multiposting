@@ -20,6 +20,7 @@ import {
 
 import { BlogModel } from "../../stores/BlogStore";
 import BlogTableRow from "./BlogTableRow";
+import TableToolBar from "../Table/TableToolBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,7 +88,7 @@ const BlogListTable: React.FC<PropsTypes> = ({ list }) => {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
+  const handleClick = (name) => () => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -124,6 +125,7 @@ const BlogListTable: React.FC<PropsTypes> = ({ list }) => {
 
   return (
     <Paper className={classes.paper}>
+      <TableToolBar numSelected={selected.length} />
       <TableContainer>
         <Table
           aria-labelledby="tableTitle"
@@ -132,8 +134,16 @@ const BlogListTable: React.FC<PropsTypes> = ({ list }) => {
         >
           <TableHead headCells={headCells} />
           <TableBody>
-            {list.map((row) => {
-              return <BlogTableRow {...row}></BlogTableRow>;
+            {list.map((row, i) => {
+              const isItemSelected = isSelected(row.aliasName);
+              return (
+                <BlogTableRow
+                  key={i}
+                  {...row}
+                  isItemSelected={isItemSelected}
+                  onClick={handleClick(row.aliasName)}
+                ></BlogTableRow>
+              );
             })}
           </TableBody>
         </Table>
