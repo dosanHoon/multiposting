@@ -1,24 +1,43 @@
-import { observable, set } from "mobx";
+import { observable, set, action } from "mobx";
+import { v4 as uuidv4 } from "uuid";
 
 export interface BlogType {
-  type: string;
-  name: string;
+  blog: string;
+  aliasName: string;
   id: string;
   pw: string;
+  uiId: string;
 }
 
-class BlogModel implements BlogType {
+export class BlogModel implements BlogType {
   constructor(param) {
     set(this, param);
+    this.uiId = uuidv4();
   }
   @observable
-  type: string;
+  uiId: string;
   @observable
-  name: string;
+  aliasName: string;
+  @observable
+  blog: string;
   @observable
   id: string;
   @observable
   pw: string;
+  @observable
+  checked: boolean = false;
+  @action
+  changeAliasName = (value) => {
+    this.aliasName = value;
+  };
+  @action
+  changeId = (value) => {
+    this.id = value;
+  };
+  @action
+  changePassword = (value) => {
+    this.pw = value;
+  };
 }
 
 export default BlogModel;

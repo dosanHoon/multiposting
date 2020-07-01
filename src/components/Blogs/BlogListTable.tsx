@@ -6,21 +6,11 @@ import {
   Table,
   TableBody,
   makeStyles,
-  Toolbar,
-  Typography,
-  TableRow,
-  TableCell,
-  Checkbox,
-  FormControl,
-  InputLabel,
-  Input,
-  InputAdornment,
-  IconButton,
 } from "@material-ui/core";
 
-import { BlogModel } from "../../stores/BlogStore";
 import BlogTableRow from "./BlogTableRow";
 import TableToolBar from "../Table/TableToolBar";
+import BlogModel from "../../models/BlogModel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +60,6 @@ const BlogListTable: React.FC<PropsTypes> = ({ list }) => {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
@@ -117,31 +106,23 @@ const BlogListTable: React.FC<PropsTypes> = ({ list }) => {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   return (
     <Paper className={classes.paper}>
       <TableToolBar numSelected={selected.length} />
       <TableContainer>
-        <Table
-          aria-labelledby="tableTitle"
-          size={dense ? "small" : "medium"}
-          aria-label="enhanced table"
-        >
+        <Table aria-labelledby="tableTitle" aria-label="enhanced table">
           <TableHead headCells={headCells} />
           <TableBody>
             {list.map((row, i) => {
-              const isItemSelected = isSelected(row.aliasName);
+              const isItemSelected = isSelected(row.uiId);
               return (
                 <BlogTableRow
                   key={i}
-                  {...row}
+                  blogInfo={row}
                   isItemSelected={isItemSelected}
-                  onClick={handleClick(row.aliasName)}
+                  onClick={handleClick(row.uiId)}
                 ></BlogTableRow>
               );
             })}

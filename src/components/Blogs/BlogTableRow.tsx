@@ -12,12 +12,10 @@ import {
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import BlogModel from "../../models/BlogModel";
 
 interface PropsTypes {
-  blog: string;
-  id: string;
-  pw: string;
-  aliasName: string;
+  blogInfo: BlogModel;
   isItemSelected: boolean;
   onClick: (event: React.MouseEvent<unknown>) => void;
 }
@@ -51,13 +49,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BlogTableRow: React.FC<PropsTypes> = ({
-  blog,
-  id,
-  pw,
-  aliasName,
+  blogInfo,
   isItemSelected,
   onClick,
 }) => {
+  const {
+    blog,
+    id,
+    pw,
+    aliasName,
+    uiId,
+    changeAliasName,
+    changeId,
+    changePassword,
+  } = blogInfo;
   const classes = useStyles();
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -69,6 +74,11 @@ const BlogTableRow: React.FC<PropsTypes> = ({
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
+  };
+
+  const onChange = (handler) => (e) => {
+    console.log(e.target.value);
+    handler(e.target.value);
   };
 
   return (
@@ -84,34 +94,36 @@ const BlogTableRow: React.FC<PropsTypes> = ({
       </TableCell>
       <TableCell align="right">
         <FormControl className={classes.textField}>
-          <InputLabel htmlFor="standard-aliasName">블로그 별칭</InputLabel>
+          <InputLabel htmlFor={`standard-aliasName${uiId}`}>
+            블로그 별칭
+          </InputLabel>
           <Input
-            id="standard-aliasName"
+            id={`standard-aliasName${uiId}`}
             value={aliasName}
-            // onChange={handleChange("password")}
+            onChange={onChange(changeAliasName)}
           />
         </FormControl>
       </TableCell>
       <TableCell align="right">
         <FormControl className={classes.textField}>
-          <InputLabel htmlFor="standard-id">id</InputLabel>
+          <InputLabel htmlFor={`standard-id${uiId}`}>id</InputLabel>
           <Input
-            id="standard-id"
+            id={`standard-id${uiId}`}
             value={id}
-            // onChange={handleChange("password")}
+            onChange={onChange(changeId)}
           />
         </FormControl>
       </TableCell>
       <TableCell align="right">
         <FormControl className={classes.textField}>
-          <InputLabel htmlFor="standard-adornment-password">
+          <InputLabel htmlFor={`standard-adornment-password${uiId}`}>
             Password
           </InputLabel>
           <Input
-            id="standard-adornment-password"
+            id={`standard-adornment-password${uiId}`}
             type={showPassword ? "text" : "password"}
             value={pw}
-            // onChange={handleChange("password")}
+            onChange={onChange(changePassword)}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton

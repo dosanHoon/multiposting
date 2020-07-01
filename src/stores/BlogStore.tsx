@@ -1,33 +1,8 @@
 import React from "react";
 import { list } from "../../auth.json";
 import { useLocalStore } from "mobx-react";
-import { observable, set, action, computed } from "mobx";
-
-export interface BlogType {
-  blog: string;
-  id: string;
-  pw: string;
-}
-
-export class BlogModel implements BlogType {
-  constructor(param) {
-    set(this, param);
-  }
-  @observable
-  aliasName: string;
-  @observable
-  blog: string;
-  @observable
-  id: string;
-  @observable
-  pw: string;
-  @observable
-  checked: boolean = false;
-  @action
-  handleChange? = () => {
-    this.checked = !this.checked;
-  };
-}
+import { observable, computed } from "mobx";
+import BlogModel from "../models/BlogModel";
 
 class BlogStore {
   @observable

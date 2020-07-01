@@ -17,7 +17,7 @@ const BlogsManagement: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <Container maxWidth="sm">
+      <Container>
         <Grid
           container
           direction="row"
