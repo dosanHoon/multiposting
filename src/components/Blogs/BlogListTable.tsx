@@ -42,8 +42,9 @@ const useStyles = makeStyles((theme) => ({
 
 interface PropsTypes {
   list: BlogModel[];
+  handleDelete: Function;
 }
-const BlogListTable: React.FC<PropsTypes> = ({ list }) => {
+const BlogListTable: React.FC<PropsTypes> = ({ list, handleDelete }) => {
   const classes = useStyles();
   const headCells: HeadCell[] = [
     {
@@ -56,17 +57,7 @@ const BlogListTable: React.FC<PropsTypes> = ({ list }) => {
     { id: "pw", numeric: true, disablePadding: false, label: "패스워드" },
   ];
 
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -97,20 +88,22 @@ const BlogListTable: React.FC<PropsTypes> = ({ list }) => {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
+  const clearSelected = () => {
+    setSelected([]);
+  };
+
+  const _handleDelete = () => {
+    handleDelete(selected);
+    clearSelected();
+  };
   return (
     <Paper className={classes.paper}>
-      <TableToolBar numSelected={selected.length} />
+      <TableToolBar
+        numSelected={selected.length}
+        handleDelete={_handleDelete}
+      />
       <TableContainer>
         <Table aria-labelledby="tableTitle" aria-label="enhanced table">
           <TableHead headCells={headCells} />

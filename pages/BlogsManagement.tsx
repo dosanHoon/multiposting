@@ -14,6 +14,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 const BlogsManagement: React.FC = () => {
   const classes = useStyles();
   const { BlogStore } = React.useContext(MobXProviderContext);
+  const [list, setList] = React.useState(BlogStore.blogList);
+
+  React.useEffect(() => {
+    setList(BlogStore.blogList);
+  }, [BlogStore.blogList]);
+
+  const handleDelete = React.useCallback((selected) => {
+    console.log("selected", selected);
+
+    setList(
+      list.filter(({ uiId }) => {
+        return selected.indexOf(uiId) === -1;
+      })
+    );
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -42,7 +57,7 @@ const BlogsManagement: React.FC = () => {
         <h1>등록된 블로그</h1>
 
         <Grid container direction="row" justify="center" alignItems="center">
-          <BlogListTable list={BlogStore.blogList} />
+          <BlogListTable list={list} handleDelete={handleDelete} />
         </Grid>
       </Container>
     </div>
