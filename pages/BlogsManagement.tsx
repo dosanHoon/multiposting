@@ -20,15 +20,12 @@ const BlogsManagement: React.FC = () => {
     setList(BlogStore.blogList);
   }, [BlogStore.blogList]);
 
-  const handleDelete = React.useCallback((selected) => {
-    console.log("selected", selected);
-
-    setList(
-      list.filter(({ uiId }) => {
-        return selected.indexOf(uiId) === -1;
-      })
-    );
-  }, []);
+  const handleDelete = React.useCallback(
+    (selected) => {
+      setList(list.filter(({ uiId }) => selected.indexOf(uiId) === -1));
+    },
+    [list]
+  );
 
   return (
     <div className={classes.root}>
