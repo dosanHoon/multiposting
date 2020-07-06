@@ -7,7 +7,11 @@ export default async (req, res) => {
   fs.writeFile(
     "./auth.json",
     JSON.stringify({
-      list: blogdata,
+      list: blogdata.map(({ blog, id, pw }) => ({
+        blog,
+        id,
+        pw,
+      })),
     }),
     "utf8",
     function (err) {
