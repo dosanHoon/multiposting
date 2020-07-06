@@ -53,6 +53,12 @@ const BlogListTable: React.FC<PropsTypes> = ({ list, handleDelete }) => {
       disablePadding: true,
       label: "블로그",
     },
+    {
+      id: "aliasName",
+      numeric: false,
+      disablePadding: true,
+      label: "블로그 별칭",
+    },
     { id: "id", numeric: true, disablePadding: false, label: "블로그 계정" },
     { id: "pw", numeric: true, disablePadding: false, label: "패스워드" },
   ];
