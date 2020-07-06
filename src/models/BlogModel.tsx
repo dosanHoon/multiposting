@@ -10,7 +10,7 @@ export interface BlogType {
 }
 
 export class BlogModel implements BlogType {
-  constructor(param) {
+  constructor(param?) {
     set(this, param);
     this.uiId = uuidv4();
   }
