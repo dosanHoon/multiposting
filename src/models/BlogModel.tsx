@@ -38,6 +38,10 @@ export class BlogModel implements BlogType {
   changePassword = (value) => {
     this.pw = value;
   };
+  @action
+  handleChecked = () => {
+    this.checked = !this.checked;
+  };
 }
 
 export default BlogModel;

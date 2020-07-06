@@ -51,7 +51,6 @@ const SelectBlogModal: React.FC<Props> = ({
         <Grid>
           <BlogsList />
         </Grid>
-
         {!BlogStore.selectedBlogList.length && (
           <Alert severity="error">블로그를 선택해주세요.</Alert>
         )}
