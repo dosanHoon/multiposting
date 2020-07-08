@@ -11,6 +11,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: 24,
   },
+  btn_root: {
+    margin: theme.spacing(1),
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
 }));
 
 const BlogsManagement: React.FC = () => {
@@ -74,6 +80,7 @@ const BlogsManagement: React.FC = () => {
           direction="row"
           justify="flex-end"
           alignItems="baseline"
+          className={classes.btn_root}
         >
           <Button variant="contained" color="default" onClick={addNewBlog}>
             <a>블로그 추가 등록하기</a>

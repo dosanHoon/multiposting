@@ -14,6 +14,7 @@ import axios from "axios";
 import Link from "next/link";
 import SelectBlogModal from "../src/components/Blogs/SelectBlogModal";
 import { MobXProviderContext } from "mobx-react";
+import MarkdownIt from "markdown-it";
 
 const MdEditorWithNoSSR = dynamic(() => import("react-markdown-editor-lite"), {
   ssr: false,
@@ -61,7 +62,21 @@ export default function MultiPosting() {
         });
     }
   }, [BlogStore.selectedBlogList, title, htmlText]);
-
+  const mdParser = new MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight(str, lang) {
+      /*
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(lang, str).value
+        } catch (__) {}
+      }
+      return '' // use external default escaping
+      */
+    },
+  });
   return (
     <Container>
       <Grid container spacing={3}>
@@ -89,7 +104,7 @@ export default function MultiPosting() {
               onImageUpload={onImageUpload}
               value={""}
               style={{ height: "500px" }}
-              renderHTML={parse}
+              renderHTML={(text) => mdParser.render(text)}
               onChange={_setMarkdownText}
             />
           </Grid>
