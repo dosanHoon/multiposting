@@ -13,6 +13,7 @@ import {
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import BlogModel from "../../models/BlogModel";
+import BlogTypeSelect from "./BlogTypeSelect";
 
 interface PropsTypes {
   blogInfo: BlogModel;
@@ -82,15 +83,12 @@ const BlogTableRow: React.FC<PropsTypes> = ({
   };
 
   return (
-    <TableRow hover role="checkbox" tabIndex={-1} onClick={onClick}>
+    <TableRow hover role="checkbox" tabIndex={-1}>
       <TableCell padding="checkbox">
-        <Checkbox
-          checked={isItemSelected}
-          // inputProps={{ "aria-labelledby": labelId }}
-        />
+        <Checkbox checked={isItemSelected} onClick={onClick} />
       </TableCell>
       <TableCell component="th" scope="row" padding="none">
-        {blog}
+        <BlogTypeSelect blogType={blog} />
       </TableCell>
       <TableCell align="right">
         <FormControl className={classes.textField}>
