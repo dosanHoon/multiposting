@@ -28,13 +28,8 @@ export default function BlogTypeSelect(props) {
   };
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel >블로그선택해주세요</InputLabel>
-      <Select
-        // labelId="demo-simple-select-label"
-        // id="demo-simple-select"
-        value={blogType}
-        onChange={handleChange}
-      >
+      <InputLabel>블로그 종류</InputLabel>
+      <Select value={blogType} onChange={handleChange}>
         <MenuItem value={"tistory"}>tistory</MenuItem>
         <MenuItem value={"naver"}>naver</MenuItem>
       </Select>
