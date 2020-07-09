@@ -9,12 +9,14 @@ import {
   OutlinedInput,
 } from "@material-ui/core";
 import React from "react";
-import { parse } from "markdown";
 import axios from "axios";
 import Link from "next/link";
 import SelectBlogModal from "../src/components/Blogs/SelectBlogModal";
 import { MobXProviderContext } from "mobx-react";
 import MarkdownIt from "markdown-it";
+import hljs from "highlight.js/lib/core";
+import javascript from 'highlight.js/lib/languages/javascript';
+hljs.registerLanguage('javascript', javascript);
 
 const MdEditorWithNoSSR = dynamic(() => import("react-markdown-editor-lite"), {
   ssr: false,
@@ -67,14 +69,12 @@ export default function MultiPosting() {
     linkify: true,
     typographer: true,
     highlight(str, lang) {
-      /*
       if (lang && hljs.getLanguage(lang)) {
         try {
-          return hljs.highlight(lang, str).value
+          return hljs.highlight(lang, str).value;
         } catch (__) {}
       }
-      return '' // use external default escaping
-      */
+      return ""; // use external default escaping
     },
   });
   return (

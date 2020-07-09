@@ -4,6 +4,7 @@ import { Provider } from "mobx-react";
 
 import initializeStore from "../src/stores/stores";
 import "react-markdown-editor-lite/lib/index.css";
+import "highlight.js/styles/rainbow.css";
 
 class CustomApp extends App {
   static async getInitialProps(appContext) {
